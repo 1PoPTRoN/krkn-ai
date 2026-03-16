@@ -119,16 +119,16 @@ class GeneticAlgorithm:
         # logger.debug("%s", json.dumps(self.config.model_dump(), indent=2))
 
     def simulate(self):
+        # Variables to track the progress of the algorithm
+        self.start_time = datetime.datetime.now(datetime.timezone.utc)
+        start_time = time.time()
+        cur_generation = 0
+
         # Establish baseline by running dummy scenario to evaluate cluster health, fitness score before chaos testing
         self.run_baseline()
 
         # Initial population (Gen 0)
         self.population = self.create_population(self.config.population_size)
-
-        # Variables to track the progress of the algorithm
-        self.start_time = datetime.datetime.now(datetime.timezone.utc)
-        start_time = time.time()
-        cur_generation = 0
 
         while True:
             # Calculate elapsed time since the start of the algorithm
