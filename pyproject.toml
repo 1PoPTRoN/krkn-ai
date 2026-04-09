@@ -19,6 +19,8 @@ dependencies = [
   "click",
   "pyyaml",
   "seaborn",
+  "plotly>=6.6.0",
+  "streamlit>=1.55.0",
   # VCS dependency
   "krkn-lib @ git+https://github.com/krkn-chaos/krkn-lib",
 ]

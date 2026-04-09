@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional
 from krkn_ai.models.app import CommandRunResult
 from krkn_ai.models.config import ConfigFile
 from krkn_ai.utils.logger import get_logger
+from krkn_ai.constants import STATUS_COMPLETED
 
 logger = get_logger(__name__)
 
@@ -56,6 +57,7 @@ class JSONSummaryReporter:
         self.end_time = end_time
         self.completed_generations = completed_generations
         self.seed = seed
+        self.status = STATUS_COMPLETED
 
     def generate_summary(self) -> Dict[str, Any]:
         """
@@ -104,6 +106,7 @@ class JSONSummaryReporter:
             "start_time": self.start_time.isoformat() if self.start_time else None,
             "end_time": self.end_time.isoformat() if self.end_time else None,
             "duration_seconds": round(duration_seconds, 2),
+            "status": self.status,
             "config": {
                 "generations": self.config.generations,
                 "population_size": self.config.population_size,

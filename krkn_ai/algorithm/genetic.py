@@ -28,6 +28,7 @@ from krkn_ai.utils.rng import rng
 from krkn_ai.models.custom_errors import PopulationSizeError, UniqueScenariosError
 from krkn_ai.utils.output import format_result_filename, format_duration
 from krkn_ai.utils.elastic_client import ElasticSearchClient
+from krkn_ai.constants import STATUS_IN_PROGRESS
 
 logger = get_logger(__name__)
 
@@ -119,6 +120,16 @@ class GeneticAlgorithm:
         # logger.debug("%s", json.dumps(self.config.model_dump(), indent=2))
 
     def simulate(self):
+        try:
+            results_path = os.path.join(self.output_dir, "results.json")
+            if os.path.exists(results_path):
+                with open(results_path, "r") as f:
+                    data = json.load(f)
+                data["status"] = STATUS_IN_PROGRESS
+                with open(results_path, "w") as f:
+                    json.dump(data, f)
+        except Exception as e:
+            logger.warning("Failed to update status to in progress: %s", e)
         # Variables to track the progress of the algorithm
         self.start_time = datetime.datetime.now(datetime.timezone.utc)
         start_time = time.time()
